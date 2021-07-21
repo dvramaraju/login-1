@@ -1,7 +1,14 @@
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 
-export default function UserDetails() {
+export default function UserDetails({
+  name,
+  username,
+  email,
+  phone,
+  website,
+  address,
+}) {
   return (
     <View style={styles.container}>
       <FlatList
@@ -9,27 +16,22 @@ export default function UserDetails() {
         renderItem={({item}) => (
           <View style={styles.margin}>
             <Text style={styles.bold}>
-              Name: <Text style={styles.font200}>{item.name}</Text>
+              Name: <Text style={styles.font200}>{name}</Text>
             </Text>
             <Text style={styles.bold}>
-              User Name: <Text style={styles.font200}>{item.username}</Text>
+              User Name: <Text style={styles.font200}>{username}</Text>
             </Text>
             <Text style={styles.bold}>
-              Email: <Text style={styles.font200}>{item.email}</Text>
+              Email: <Text style={styles.font200}>{email}</Text>
             </Text>
             <Text style={styles.bold}>
-              Phone: <Text style={styles.font200}>{item.phone}</Text>
+              Phone: <Text style={styles.font200}>{phone}</Text>
             </Text>
             <Text style={styles.bold}>
-              website: <Text style={styles.font200}>{item.website}</Text>
+              website: <Text style={styles.font200}>{website}</Text>
             </Text>
             <Text style={styles.bold}>
-              Address:{' '}
-              <Text style={styles.font200}>
-                {item.address.street}, {item.address.suite},{item.address.city},{' '}
-                {item.address.zipcode}
-                {'  '}
-              </Text>
+              Address: <Text style={styles.font200}>{address}</Text>
             </Text>
           </View>
         )}
