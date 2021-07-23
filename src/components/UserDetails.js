@@ -1,42 +1,32 @@
 import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-export default function UserDetails({
-  name,
-  username,
-  email,
-  phone,
-  website,
-  address,
-}) {
+export default function UserDetails({route}) {
+  const {name} = route.params;
+  const {username} = route.params;
+  const {email} = route.params;
+  const {phone} = route.params;
+  const {website} = route.params;
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={this.state.dataSource}
-        renderItem={({item}) => (
-          <View style={styles.margin}>
-            <Text style={styles.bold}>
-              Name: <Text style={styles.font200}>{name}</Text>
-            </Text>
-            <Text style={styles.bold}>
-              User Name: <Text style={styles.font200}>{username}</Text>
-            </Text>
-            <Text style={styles.bold}>
-              Email: <Text style={styles.font200}>{email}</Text>
-            </Text>
-            <Text style={styles.bold}>
-              Phone: <Text style={styles.font200}>{phone}</Text>
-            </Text>
-            <Text style={styles.bold}>
-              website: <Text style={styles.font200}>{website}</Text>
-            </Text>
-            <Text style={styles.bold}>
-              Address: <Text style={styles.font200}>{address}</Text>
-            </Text>
-          </View>
-        )}
-        keyExtractor={({id}) => id}
-      />
+      <View style={styles.margin}>
+        <Text style={styles.bold}>
+          Name: <Text style={styles.font200}>{name}</Text>
+        </Text>
+        <Text style={styles.bold}>
+          User Name: <Text style={styles.font200}>{username}</Text>
+        </Text>
+        <Text style={styles.bold}>
+          Email: <Text style={styles.font200}>{email}</Text>
+        </Text>
+        <Text style={styles.bold}>
+          Phone: <Text style={styles.font200}>{phone}</Text>
+        </Text>
+        <Text style={styles.bold}>
+          Website: <Text style={styles.font200}>{website}</Text>
+        </Text>
+      </View>
     </View>
   );
 }
@@ -49,15 +39,10 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
-    textAlign: 'center',
-    marginTop: '45%',
-  },
-  display: {
-    display: 'flex',
   },
   font200: {
     fontWeight: '200',
+    fontFamily: 'Merienda-Regular',
   },
   margin: {
     // margin: 10,
