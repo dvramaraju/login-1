@@ -1,81 +1,107 @@
-import Data from '../../data.json';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  FlatList,
-  StyleSheet,
+  SafeAreaView,
   Text,
-  TextInput,
-  TouchableOpacity,
+  StyleSheet,
   View,
+  FlatList,
+  TextInput,
 } from 'react-native';
-import axios from 'axios';
 
-export default function DataLoad({navigation}) {
-  const [datas, setDatas] = useState([]);
-  const fetchData = async () => {
-    return await axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(() => setDatas(datas))
-      .catch(error => console.log(error));
+const App = ({navigation}) => {
+  const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(responseJson => {
+        setFilteredDataSource(responseJson);
+        setMasterDataSource(responseJson);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
+  const ItemView = ({item}) => {
+    return (
+      <Text
+        style={styles.itemStyle}
+        onPress={() => {
+          navigation.navigate('DetailScreen', {
+            name: item.name,
+            username: item.username,
+            email: item.email,
+            phone: item.phone,
+            website: item.website,
+          });
+        }}>
+        {item.id}
+        {'.'}
+        {item.name.toUpperCase()}
+      </Text>
+    );
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.search}
-        placeholder="Search"
-        keyboardType="default"
-        placeholderTextColor="white"
-      />
-      <FlatList
-        data={fetchData}
-        renderItem={({item}) => (
-          <View style={styles.margin}>
-            <TouchableOpacity
-              onPress={function () {
-                navigation.navigate('DetailScreen', {
-                  name: item.name,
-                  username: item.username,
-                  email: item.email,
-                  phone: item.phone,
-                  website: item.website,
-                });
-              }}>
-              <Text style={styles.fStyle}>{item.name}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        keyExtractor={({id}) => id}
-      />
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={text => searchFilterFunction(text)}
+          value={search}
+          underlineColorAndroid="transparent"
+          placeholder="Search Here"
+        />
+        <FlatList
+          data={filteredDataSource}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={() => <View style={styles.ItemSeparator} />}
+          renderItem={ItemView}
+        />
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  align: {
-    textAlign: 'left',
-    fontWeight: 'bold',
-  },
   container: {
+    backgroundColor: 'white',
+  },
+  itemStyle: {
     padding: 10,
+    fontFamily: 'Merienda-Bold',
   },
-  fStyle: {
-    fontFamily: 'Pacifico-Regular',
+  ItemSeparator: {
+    height: 0.5,
+    width: '100%',
+    backgroundColor: '#C8C8C8',
   },
-  image: {
-    height: 10,
-    width: 10,
-  },
-  margin: {
-    margin: 10,
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingBottom: 10,
-    backgroundColor: '#d2fc03',
-  },
-  search: {
-    flexDirection: 'row',
-    backgroundColor: '#16A085',
-    justifyContent: 'space-between',
+  textInputStyle: {
+    height: 40,
+    borderWidth: 1,
+    paddingLeft: 20,
+    margin: 5,
+    borderColor: '#009688',
+    backgroundColor: '#FFFFFF',
   },
 });
+
+export default App;

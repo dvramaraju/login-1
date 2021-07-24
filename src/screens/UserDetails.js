@@ -45,9 +45,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Merienda-Regular',
   },
   margin: {
-    // margin: 10,
     padding: 20,
-    backgroundColor: '#d1ca30',
+    backgroundColor: '#22d3ee',
     borderRadius: 10,
   },
 });
