@@ -53,15 +53,13 @@ const App = ({navigation}) => {
             website: item.website,
           });
         }}>
-        {item.id}
-        {'.'}
-        {item.name.toUpperCase()}
+        {item.name}
       </Text>
     );
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <TextInput
           style={styles.textInputStyle}
@@ -73,7 +71,7 @@ const App = ({navigation}) => {
         <FlatList
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={() => <View style={styles.ItemSeparator} />}
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
           renderItem={ItemView}
         />
       </View>
@@ -88,11 +86,15 @@ const styles = StyleSheet.create({
   itemStyle: {
     padding: 10,
     fontFamily: 'Merienda-Bold',
+    textAlign: 'center',
   },
-  ItemSeparator: {
+  itemSeparator: {
     height: 0.5,
     width: '100%',
     backgroundColor: '#C8C8C8',
+  },
+  safeArea: {
+    flex: 1,
   },
   textInputStyle: {
     height: 40,
